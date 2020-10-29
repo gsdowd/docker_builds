@@ -7,6 +7,9 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH /opt/miniconda/bin:$PATH
 ENV DEBIAN_FRONTEND=noninteractive
 
+#Install psycopg to connect to postgres db
+RUN conda install -c conda-forge psycopg2
+
 # Install latest version of EODataDown
 RUN mkdir -p /opt/eodatadown . && \
     cd /opt/eodatadown && \
@@ -35,9 +38,6 @@ RUN mkdir -p /opt/google_cloud && \
     echo 'source /opt/google_cloud/google-cloud-sdk/path.bash.inc' >> ~/.bashrc && \
     sync
 
-# Fix for install issue where google-cloud bigquery doesn't install
-RUN pip install google-cloud-bigquery google-cloud-bigquery[opentelemetry] opentelemetry-exporter-google-cloud
-
 ENV PATH=$PATH:/opt/google_cloud/google-cloud-sdk/bin
 
 WORKDIR /home
@@ -50,3 +50,6 @@ ENTRYPOINT ["/tini", "--"]
 
 CMD [ "/bin/bash" ]
 
+# Fix for install issue where google-cloud bigquery doesn't install
+RUN pip install google-cloud-bigquery 
+RUN pip install google-cloud-bigquery[opentelemetry] opentelemetry-exporter-google-cloud
