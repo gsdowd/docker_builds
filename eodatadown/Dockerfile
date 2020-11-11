@@ -53,3 +53,4 @@ CMD [ "/bin/bash" ]
 # Fix for install issue where google-cloud bigquery doesn't install
 RUN pip install google-cloud-bigquery 
 RUN pip install google-cloud-bigquery[opentelemetry] opentelemetry-exporter-google-cloud
+RUN pip install google-cloud-storage
