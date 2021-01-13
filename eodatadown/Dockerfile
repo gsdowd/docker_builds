@@ -7,6 +7,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH /opt/miniconda/bin:$PATH
 ENV DEBIAN_FRONTEND=noninteractive
 
+#Install psycopg to connect to postgres db
 RUN conda install -c conda-forge psycopg2
 
 # Install latest version of EODataDown
@@ -49,3 +50,7 @@ ENTRYPOINT ["/tini", "--"]
 
 CMD [ "/bin/bash" ]
 
+# Fix for install issue where google-cloud bigquery doesn't install
+RUN pip install google-cloud-bigquery 
+RUN pip install google-cloud-bigquery[opentelemetry] opentelemetry-exporter-google-cloud
+RUN pip install google-cloud-storage
